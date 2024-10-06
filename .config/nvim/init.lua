@@ -37,7 +37,7 @@ vim.schedule(function()
 end)
 
 -- setup nvim-tree
-require("nvim-tree").setup({
+require("nvim-tree").setup {
   filters = {
     git_ignored = false,
     custom = {
@@ -53,11 +53,10 @@ require("nvim-tree").setup({
       "^.coverage",
     },
   },
-})
+}
 
 -- automatically open file tree
 local function open_nvim_tree()
-
   -- open the tree
   require("nvim-tree.api").tree.open()
 end
@@ -92,9 +91,9 @@ vim.api.nvim_create_autocmd("LspAttach", {
 local function is_pyright_attached()
   local clients = vim.lsp.get_active_clients()
   for _, client in ipairs(clients) do
-      if client.name == "pyright" and vim.lsp.buf_is_attached(0, client.id) then
-          return true
-      end
+    if client.name == "pyright" and vim.lsp.buf_is_attached(0, client.id) then
+      return true
+    end
   end
   return false
 end
@@ -108,25 +107,29 @@ local function wait_for_lsp(callback)
   local attempts = 0
 
   -- Start the polling loop
-  timer:start(0, interval, vim.schedule_wrap(function()
+  timer:start(
+    0,
+    interval,
+    vim.schedule_wrap(function()
       attempts = attempts + 1
 
       if is_pyright_attached() then
-          -- If pyright is attached, stop the timer and run the callback
-          timer:stop()
-          timer:close()
-          callback()
+        -- If pyright is attached, stop the timer and run the callback
+        timer:stop()
+        timer:close()
+        callback()
       elseif attempts >= max_attempts then
-          -- Stop checking after max attempts (timeout)
-          timer:stop()
-          timer:close()
-          vim.notify("pyright not activated in time", vim.log.levels.WARN)
+        -- Stop checking after max attempts (timeout)
+        timer:stop()
+        timer:close()
+        vim.notify("pyright not activated in time", vim.log.levels.WARN)
       end
-  end))
+    end)
+  )
 end
 
 -- Automatically activate workspace venv
-local venv_selector = require("venv-selector")
+local venv_selector = require "venv-selector"
 
 vim.api.nvim_create_autocmd("BufEnter", {
   pattern = "*.py",
@@ -139,8 +142,8 @@ vim.api.nvim_create_autocmd("BufEnter", {
         vim.notify("No workspace venv found. Skipping activation.", vim.log.levels.INFO)
         return
       end
-      
+
       venv_selector.activate_from_path(string.format("%s/.venv/bin/python", workspace_paths[#workspace_paths]))
     end)
-  end
+  end,
 })
