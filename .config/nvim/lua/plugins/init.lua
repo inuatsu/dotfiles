@@ -14,7 +14,7 @@ return {
   },
 
   {
-  	"nvim-treesitter/nvim-treesitter",
+    "nvim-treesitter/nvim-treesitter",
     config = function()
       require "configs.treesitter"
     end,
@@ -31,27 +31,28 @@ return {
     "linux-cultist/venv-selector.nvim",
     dependencies = {
       "neovim/nvim-lspconfig",
-      "mfussenegger/nvim-dap", "mfussenegger/nvim-dap-python", --optional
+      "mfussenegger/nvim-dap",
+      "mfussenegger/nvim-dap-python", --optional
       { "nvim-telescope/telescope.nvim", branch = "0.1.x", dependencies = { "nvim-lua/plenary.nvim" } },
     },
     lazy = false,
     branch = "regexp", -- This is the regexp branch, use this for the new version
     config = function()
-        require("venv-selector").setup {
-          settings = {
-            options = {
-              activate_venv_in_terminal = false,
-              cached_venv_automatic_activation = false,
-              debug = true,
-              enable_cached_venvs = false,
-              notify_user_on_venv_activation = true
-            }
-          }
-        }
-      end,
-      keys = {
-        { ",v", "<cmd>VenvSelect<cr>" },
-      },
+      require("venv-selector").setup {
+        settings = {
+          options = {
+            activate_venv_in_terminal = false,
+            cached_venv_automatic_activation = false,
+            debug = true,
+            enable_cached_venvs = false,
+            notify_user_on_venv_activation = true,
+          },
+        },
+      }
+    end,
+    keys = {
+      { ",v", "<cmd>VenvSelect<cr>" },
+    },
   },
 
   {
@@ -69,11 +70,11 @@ return {
     },
     event = "VeryLazy",
     config = function()
-      require("octo").setup({
+      require("octo").setup {
         suppress_missing_scope = {
           projects_v2 = true,
-        }
-      })
+        },
+      }
     end,
   },
 
@@ -157,13 +158,21 @@ return {
     "AckslD/nvim-neoclip.lua",
     lazy = false,
     dependencies = {
-      {"kkharji/sqlite.lua", module = "sqlite"},
-      {"nvim-telescope/telescope.nvim"},
+      { "kkharji/sqlite.lua", module = "sqlite" },
+      { "nvim-telescope/telescope.nvim" },
     },
     config = function()
       require("neoclip").setup {
         enable_persistent_history = true,
       }
+    end,
+  },
+
+  {
+    "mfussenegger/nvim-lint",
+    event = { "BufReadPre", "BufNewFile" },
+    config = function()
+      require "configs.lint"
     end,
   },
 }
