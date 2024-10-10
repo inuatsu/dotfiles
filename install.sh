@@ -39,6 +39,8 @@ gem install rubocop ruby-lsp
 echo "RuboCop and ruby-lsp installed."
 
 echo "Installing npm packages..."
+export PNPM_HOME="$HOME/.local/share/pnpm"
+export PATH="$PNPM_HOME:$PATH"
 corepack pnpm add -g \
   @fsouza/prettierd \
   @microsoft/compose-language-service \
