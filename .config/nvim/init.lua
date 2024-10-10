@@ -65,7 +65,7 @@ vim.api.nvim_create_autocmd({ "VimEnter" }, { callback = open_nvim_tree })
 
 -- LSP server attachment command
 vim.api.nvim_create_autocmd("LspAttach", {
-  callback = function(ctx)
+  callback = function()
     local set = vim.keymap.set
     set("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", { buffer = true })
     set("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", { buffer = true })
@@ -87,63 +87,23 @@ vim.api.nvim_create_autocmd("LspAttach", {
   end,
 })
 
--- Helper function to check if pyright is attached to the current buffer
-local function is_pyright_attached()
-  local clients = vim.lsp.get_active_clients()
-  for _, client in ipairs(clients) do
-    if client.name == "pyright" and vim.lsp.buf_is_attached(0, client.id) then
-      return true
-    end
-  end
-  return false
-end
-
--- Function that waits for pyright to attach and then calls the provided callback
-local function wait_for_lsp(callback)
-  local timer = vim.loop.new_timer()
-  local interval = 100 -- Check every 100ms
-  local max_attempts = 50 -- Maximum attempts before timeout (e.g., 5 seconds)
-
-  local attempts = 0
-
-  -- Start the polling loop
-  timer:start(
-    0,
-    interval,
-    vim.schedule_wrap(function()
-      attempts = attempts + 1
-
-      if is_pyright_attached() then
-        -- If pyright is attached, stop the timer and run the callback
-        timer:stop()
-        timer:close()
-        callback()
-      elseif attempts >= max_attempts then
-        -- Stop checking after max attempts (timeout)
-        timer:stop()
-        timer:close()
-        vim.notify("pyright not activated in time", vim.log.levels.WARN)
-      end
-    end)
-  )
-end
-
 -- Automatically activate workspace venv
 local venv_selector = require "venv-selector"
+local utils = require "utils"
 
 vim.api.nvim_create_autocmd("BufEnter", {
   pattern = "*.py",
   callback = function()
-    wait_for_lsp(function()
-      local workspace_paths = venv_selector.workspace_paths()
+    utils.wait_for_lsp("pyright", function()
+      local current_file_path = vim.fn.expand "%:p:h"
+      local venv_path = utils.recursive_find_project_root(current_file_path, ".venv")
 
-      if #workspace_paths == 0 then
-        -- Skip venv activation if no workspace paths are found
-        vim.notify("No workspace venv found. Skipping activation.", vim.log.levels.INFO)
+      if venv_path == nil then
+        vim.notify("No virtual environment found in current or parent directories.", vim.log.levels.WARN)
         return
       end
 
-      venv_selector.activate_from_path(string.format("%s/.venv/bin/python", workspace_paths[#workspace_paths]))
+      venv_selector.activate_from_path(string.format("%s/bin/python", venv_path))
     end)
   end,
 })
