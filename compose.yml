@@ -1,0 +1,5 @@
+services:
+  test:
+    build: ./
+    container_name: test
+    tty: true
