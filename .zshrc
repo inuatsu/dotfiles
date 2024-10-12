@@ -70,7 +70,7 @@ zinit for \
   zdharma-continuum/fast-syntax-highlighting \
   zdharma-continuum/history-search-multi-word \
 
-export PATH=$PATH:~/bin
+export PATH=$PATH:$HOME/bin
 
 function gi() { curl -sLw n https://www.toptal.com/developers/gitignore/api/$@ ;}
 
