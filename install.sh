@@ -37,7 +37,7 @@ if [ "${machine}" = "Linux" ]; then
   curl -fsSL https://github.com/neovim/neovim/releases/download/v0.10.2/nvim-linux64.tar.gz \
     | sudo tar xz --strip-components=1 -C /usr/local
 elif [ "${machine}" = "macOS" ]; then
-  curl -fsSL https://github.com/neovim/neovim/releases/download/nightly/nvim-macos-arm64.tar.gz \
+  curl -fsSL https://github.com/neovim/neovim/releases/download/v0.10.2/nvim-macos-arm64.tar.gz \
     | sudo tar xz --strip-components=1 -C /usr/local
 fi
 echo "NeoVim installed."
