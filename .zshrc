@@ -70,6 +70,9 @@ zinit for \
   zdharma-continuum/fast-syntax-highlighting \
   zdharma-continuum/history-search-multi-word \
 
+zinit ice atload"zpcdreplay" atclone"./zplug.zsh" atpull"%atclone"
+zinit light g-plane/pnpm-shell-completion
+
 export PATH=$PATH:$HOME/bin
 
 eval "$(~/.local/bin/mise activate zsh)"
@@ -81,5 +84,7 @@ case ":$PATH:" in
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 # pnpm end
+
+source $HOME/.config/zsh/completions/pnpm.zsh
 
 eval "$(starship init zsh)"
