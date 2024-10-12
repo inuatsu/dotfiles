@@ -1,0 +1,29 @@
+name: Build environment on macOS arm64
+
+on:
+  push:
+    branches:
+      - "*"
+  workflow_dispatch:
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [macos-15, macos-14]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install dependencies
+        run: |
+          brew upgrade
+          brew install pinentry-mac zlib
+      - name: Install dev tools
+        run: |
+          source .zshrc
+          # Add ASDF_HASHICORP_SKIP_VERIFY=1 because it somehow fails verifying checksums and signatures
+          # Add MISE_RUBY_BUILD_OPTS=--disable-shared because SIP is disabled on GHA macOS runner
+          ASDF_HASHICORP_SKIP_VERIFY=1 MISE_RUBY_BUILD_OPTS=--disable-shared bash install.sh
+        shell: zsh {0}
+        env:
+          SHELL: /usr/bin/zsh
