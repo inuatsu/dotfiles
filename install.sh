@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
-set -e
-set -o pipefail
+set -euo pipefail
 
 case "$(uname -s)" in
   Linux*)
@@ -32,23 +31,25 @@ eval "$(~/.local/bin/mise activate bash)"
 export PATH="$HOME/.local/share/mise/shims:$PATH"
 mise install -y
 
+mkdir -p ${HOME}/bin ${HOME}/lib ${HOME}/share
+
 echo "Installing NeoVim..."
 if [ "${machine}" = "Linux" ]; then
   curl -fsSL https://github.com/neovim/neovim/releases/download/v0.10.2/nvim-linux64.tar.gz \
-    | sudo tar xz --strip-components=1 -C /usr/local
+    | tar xz --strip-components=1 -C ${HOME}
 elif [ "${machine}" = "macOS" ]; then
   curl -fsSL https://github.com/neovim/neovim/releases/download/v0.10.2/nvim-macos-arm64.tar.gz \
-    | sudo tar xz --strip-components=1 -C /usr/local
+    | tar xz --strip-components=1 -C ${HOME}
 fi
 echo "NeoVim installed."
 
 echo "Installing typos-lsp..."
 if [ "${machine}" = "Linux" ]; then
   curl -fsSL https://github.com/tekumara/typos-lsp/releases/download/v0.1.27/typos-lsp-v0.1.27-x86_64-unknown-linux-gnu.tar.gz \
-    | sudo tar xz -C /usr/local/bin
+    | tar xz -C ${HOME}/bin
 elif [ "${machine}" = "macOS" ]; then
   curl -fsSL https://github.com/tekumara/typos-lsp/releases/download/v0.1.27/typos-lsp-v0.1.27-aarch64-apple-darwin.tar.gz \
-    | sudo tar xz -C /usr/local/bin
+    | tar xz -C ${HOME}/bin
 fi
 echo "typos-lsp installed."
 
