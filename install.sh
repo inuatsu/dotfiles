@@ -16,6 +16,13 @@ case "$(uname -s)" in
     ;;
 esac
 
+sh -c "$(curl -sS https://starship.rs/install.sh)" -y -f
+
+curl https://mise.run | sh
+eval "$(~/.local/bin/mise activate bash)"
+export PATH="$HOME/.local/share/mise/shims:$PATH"
+mise install -y
+
 IGNORE_PATTERN="^\.(git|travis)"
 
 echo "Creating dotfile links..."
@@ -24,11 +31,6 @@ for dotfile in .??*; do
   ln -snfv "$(pwd)/$dotfile" "$HOME/$dotfile"
 done
 echo "Dotfile links created."
-
-curl https://mise.run | sh
-eval "$(~/.local/bin/mise activate bash)"
-export PATH="$HOME/.local/share/mise/shims:$PATH"
-mise install -y
 
 echo "Installing NeoVim..."
 if [ "${machine}" = "Linux" ]; then
