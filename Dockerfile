@@ -50,6 +50,11 @@ RUN useradd -m ${USER} && \
   gpasswd -a ${USER} sudo && \
   echo "${USER}:test" | chpasswd
 
+WORKDIR ${HOME}
+
+RUN git clone https://github.com/inuatsu/dotfiles.git && \
+  touch .zshrc
+
 RUN chown -R ${USER}:${USER} ${HOME}
 
 ENV SHELL=/usr/bin/zsh
@@ -57,5 +62,4 @@ RUN chsh -s "$(which zsh)" && \
   zsh
 
 USER ${USER}
-WORKDIR ${HOME}
 CMD ["/bin/zsh"]
