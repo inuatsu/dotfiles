@@ -1,9 +1,14 @@
 name: Build environment on Ubuntu x86-64
 
 on:
-  push:
+  pull_request:
     branches:
       - "*"
+    paths:
+      - "!**.md"
+  push:
+    branches:
+      - "main"
   workflow_dispatch:
 
 jobs:
