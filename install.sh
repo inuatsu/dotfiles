@@ -18,7 +18,7 @@ esac
 
 sh -c "$(curl -sS https://starship.rs/install.sh)" -y -f
 
-IGNORE_PATTERN="^\.(git|travis)"
+IGNORE_PATTERN="^\.(git)"
 
 echo "Creating dotfile links..."
 for dotfile in .??*; do
