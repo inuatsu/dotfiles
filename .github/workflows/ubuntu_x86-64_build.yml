@@ -1,4 +1,4 @@
-name: Build environment on Ubuntu x86-64
+name: Build on Ubuntu x86_64
 
 on:
   pull_request:
