@@ -34,6 +34,7 @@ apt_packages=(
   "libyaml-dev"
   "make"
   "patch"
+  "python3"
   "rustc"
   "unzip"
   "uuid-dev"
