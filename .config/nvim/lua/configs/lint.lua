@@ -76,6 +76,15 @@ lint.linters["markdownlint-cli2"].cmd = function()
   end
 end
 
+lint.linters.mypy.args = {
+  "--show-column-numbers",
+  "--show-error-end",
+  "--hide-error-context",
+  "--no-color-output",
+  "--no-error-summary",
+  "--no-pretty",
+}
+
 lint.linters.mypy.cmd = function()
   local venv = vim.env.VIRTUAL_ENV
   if venv and vim.fn.filereadable(string.format("%s/bin/mypy", venv)) == 1 then
