@@ -1,4 +1,4 @@
-name: Build environment on macOS arm64
+name: Build on macOS arm64
 
 on:
   pull_request:
