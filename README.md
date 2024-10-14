@@ -7,18 +7,20 @@ Dotfiles for Ubuntu (or Ubuntu-based distros) and macOS
 
 ## Installation
 
-Clone this repository and execute install.sh.
+Clone this repository and execute check_prerequisites.sh and install.sh.
 
 ```bash
 git clone https://github.com/inuatsu/dotfiles.git
 cd dotfiles
+bash check_prerequisites.sh  # Check and install prerequisites
 bash install.sh
 ```
 
 > [!CAUTION]
 >
 > Install on your own risk!
-> Please review the code and understand what it does before executing install.sh.
+> Please review the code and understand what it does
+> before executing check_prerequisites.sh and install.sh.
 
 ### Give it a try on Docker
 
@@ -35,6 +37,7 @@ hit the command below to start installation on the container.
 
 ```bash
 cd dotfiles
+bash check_prerequisites.sh
 bash install.sh
 ```
 
