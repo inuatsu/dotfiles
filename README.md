@@ -80,3 +80,7 @@ After setup finished, execute `source .zshrc` and you can try it out.
 
 Feedback and suggestions are welcome!
 Please feel free to open an issue or pull request.
+
+## Preview
+
+https://github.com/user-attachments/assets/255dc733-f4bb-45bb-a2cd-c9f1ec794d76
