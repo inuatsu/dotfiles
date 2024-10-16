@@ -215,4 +215,16 @@ return {
       require("cmp").setup(opts)
     end,
   },
+
+  {
+    "Bekaboo/deadcolumn.nvim",
+    lazy = false,
+    config = function()
+      require("deadcolumn").setup {
+        modes = function(mode)
+          return mode:find "^[icntRss\x13]" ~= nil
+        end,
+      }
+    end,
+  },
 }
