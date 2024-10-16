@@ -175,4 +175,44 @@ return {
       require "configs.lint"
     end,
   },
+
+  {
+    "kndndrj/nvim-dbee",
+    lazy = false,
+    dependencies = {
+      "MunifTanjim/nui.nvim",
+    },
+    build = function()
+      require("dbee").install()
+    end,
+    config = function()
+      require("dbee").setup()
+    end,
+  },
+
+  {
+    "hrsh7th/nvim-cmp",
+    dependencies = {
+      {
+        "MattiasMTS/cmp-dbee",
+        ft = "sql",
+        opts = {},
+      },
+    },
+    config = function(_, opts)
+      local myopts = {
+        sources = {
+          { name = "nvim_lsp" },
+          { name = "luasnip" },
+          { name = "buffer" },
+          { name = "nvim_lua" },
+          { name = "path" },
+          { name = "cmp-dbee" },
+        },
+      }
+
+      opts = vim.tbl_deep_extend("force", myopts, opts)
+      require("cmp").setup(opts)
+    end,
+  },
 }
