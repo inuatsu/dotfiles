@@ -1,7 +1,6 @@
 return {
   {
     "stevearc/conform.nvim",
-    lazy = true,
     event = "BufWritePre",
     opts = require "configs.conform",
   },
@@ -20,12 +19,7 @@ return {
     end,
   },
 
-  {
-    "max397574/better-escape.nvim",
-    config = function()
-      require("better_escape").setup()
-    end,
-  },
+  { "max397574/better-escape.nvim", opts = {} },
 
   {
     "linux-cultist/venv-selector.nvim",
@@ -33,23 +27,20 @@ return {
       "neovim/nvim-lspconfig",
       "mfussenegger/nvim-dap",
       "mfussenegger/nvim-dap-python", --optional
-      { "nvim-telescope/telescope.nvim", branch = "0.1.x", dependencies = { "nvim-lua/plenary.nvim" } },
     },
-    lazy = false,
+    event = "BufReadPre",
     branch = "regexp", -- This is the regexp branch, use this for the new version
-    config = function()
-      require("venv-selector").setup {
-        settings = {
-          options = {
-            activate_venv_in_terminal = false,
-            cached_venv_automatic_activation = false,
-            debug = true,
-            enable_cached_venvs = false,
-            notify_user_on_venv_activation = true,
-          },
+    opts = {
+      settings = {
+        options = {
+          activate_venv_in_terminal = false,
+          cached_venv_automatic_activation = false,
+          debug = true,
+          enable_cached_venvs = false,
+          notify_user_on_venv_activation = true,
         },
-      }
-    end,
+      },
+    },
     keys = {
       { ",v", "<cmd>VenvSelect<cr>" },
     },
@@ -58,7 +49,7 @@ return {
   {
     "sindrets/diffview.nvim",
     dependencies = { "nvim-lua/plenary.nvim" },
-    event = "VeryLazy",
+    cmd = "DiffviewOpen",
   },
 
   {
@@ -68,14 +59,12 @@ return {
       "nvim-telescope/telescope.nvim",
       "nvim-tree/nvim-web-devicons",
     },
-    event = "VeryLazy",
-    config = function()
-      require("octo").setup {
-        suppress_missing_scope = {
-          projects_v2 = true,
-        },
-      }
-    end,
+    cmd = "Octo",
+    opts = {
+      suppress_missing_scope = {
+        projects_v2 = true,
+      },
+    },
   },
 
   {
@@ -96,24 +85,18 @@ return {
   {
     "MeanderingProgrammer/render-markdown.nvim",
     ft = { "markdown", "quarto" },
-    opts = {},
-    dependencies = { "nvim-treesitter/nvim-treesitter", "echasnovski/mini.nvim" },
   },
 
   {
     "petertriho/nvim-scrollbar",
-    lazy = false,
-    config = function()
-      require("scrollbar").setup()
-    end,
+    event = "BufReadPost",
+    opts = {},
   },
 
   {
     "kevinhwang91/nvim-hlslens",
-    lazy = false,
-    config = function()
-      require("hlslens").setup()
-    end,
+    event = "BufReadPost",
+    opts = {},
   },
 
   {
@@ -156,16 +139,14 @@ return {
 
   {
     "AckslD/nvim-neoclip.lua",
-    lazy = false,
+    event = "BufReadPost",
     dependencies = {
       { "kkharji/sqlite.lua", module = "sqlite" },
       { "nvim-telescope/telescope.nvim" },
     },
-    config = function()
-      require("neoclip").setup {
-        enable_persistent_history = true,
-      }
-    end,
+    opts = {
+      enable_persistent_history = true,
+    },
   },
 
   {
@@ -178,16 +159,14 @@ return {
 
   {
     "kndndrj/nvim-dbee",
-    lazy = false,
+    cmd = "Dbee",
     dependencies = {
       "MunifTanjim/nui.nvim",
     },
     build = function()
       require("dbee").install()
     end,
-    config = function()
-      require("dbee").setup()
-    end,
+    opts = {},
   },
 
   {
@@ -218,19 +197,17 @@ return {
 
   {
     "Bekaboo/deadcolumn.nvim",
-    lazy = false,
-    config = function()
-      require("deadcolumn").setup {
-        modes = function(mode)
-          return mode:find "^[icntRss\x13]" ~= nil
-        end,
-      }
-    end,
+    event = "BufReadPost",
+    opts = {
+      modes = function(mode)
+        return mode:find "^[icntRss\x13]" ~= nil
+      end,
+    },
   },
 
   {
     "j-hui/fidget.nvim",
-    lazy = false,
+    event = "BufReadPre",
     opts = {
       progress = {
         lsp = {

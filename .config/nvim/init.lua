@@ -91,12 +91,11 @@ vim.api.nvim_create_autocmd("LspAttach", {
 })
 
 -- Automatically activate workspace venv
-local venv_selector = require "venv-selector"
-local utils = require "utils"
 
 vim.api.nvim_create_autocmd("BufEnter", {
   pattern = "*.py",
   callback = function()
+    local utils = require "utils"
     utils.wait_for_lsp("pyright", function()
       local current_file_path = vim.fn.expand "%:p:h"
       local venv_path = utils.recursive_find_project_root(current_file_path, ".venv")
@@ -106,7 +105,7 @@ vim.api.nvim_create_autocmd("BufEnter", {
         return
       end
 
-      venv_selector.activate_from_path(string.format("%s/bin/python", venv_path))
+      require("venv-selector").activate_from_path(string.format("%s/bin/python", venv_path))
     end)
   end,
 })
