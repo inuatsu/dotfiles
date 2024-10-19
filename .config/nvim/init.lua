@@ -9,6 +9,7 @@ if not vim.uv.fs_stat(lazypath) then
   vim.fn.system { "git", "clone", "--filter=blob:none", repo, "--branch=stable", lazypath }
 end
 
+vim.wo.relativenumber = true
 vim.opt.rtp:prepend(lazypath)
 
 vim.opt.colorcolumn = "120"
