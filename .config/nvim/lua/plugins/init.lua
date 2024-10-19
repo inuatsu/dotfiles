@@ -227,4 +227,19 @@ return {
       }
     end,
   },
+
+  {
+    "j-hui/fidget.nvim",
+    lazy = false,
+    opts = {
+      progress = {
+        lsp = {
+          log_handler = true,
+        },
+      },
+      notification = {
+        override_vim_notify = true,
+      },
+    },
+  },
 }
