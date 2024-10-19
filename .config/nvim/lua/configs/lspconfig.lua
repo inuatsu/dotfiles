@@ -30,11 +30,12 @@ lspconfig.yamlls.setup {
   on_attach = nvlsp.on_attach,
   on_init = nvlsp.on_init,
   capabilities = nvlsp.capabilities,
+  filetypes = { "yaml", "yaml.docker-compose", "yaml.gitlab", "yaml.ghaction" },
   settings = {
     yaml = {
       schemas = {
         ["https://json.schemastore.org/github-workflow.json"] = ".github/workflows/*.{yml,yaml}",
-        ["https://json.schemastore.org/github-action.json"] = ".github/actions/**/*.{yml,yaml}",
+        ["https://json.schemastore.org/github-action.json"] = ".github/actions/*/*.{yml,yaml}",
         ["https://json.schemastore.org/prettierrc.json"] = ".prettierrc.{yml,yaml}",
         ["https://json.schemastore.org/stylelintrc.json"] = ".stylelintrc.{yml,yaml}",
         ["https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json"] = "(docker-)?compose.{yml,yaml}",

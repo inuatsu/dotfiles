@@ -4,8 +4,8 @@ local lint = require "lint"
 
 vim.filetype.add {
   pattern = {
-    [".*/.github/actions/**/.*%.yml"] = "yaml.ghaction",
-    [".*/.github/actions/**/.*%.yaml"] = "yaml.ghaction",
+    [".*/.github/actions/*/.*%.yml"] = "yaml.ghaction",
+    [".*/.github/actions/*/.*%.yaml"] = "yaml.ghaction",
     [".*/.github/workflows/.*%.yml"] = "yaml.ghaction",
     [".*/.github/workflows/.*%.yaml"] = "yaml.ghaction",
   },
@@ -219,10 +219,19 @@ local function show_window()
     end
   end
 
+  local filetype = vim.bo.filetype
+  if filetype == "yaml.ghaction" then
+    filetype = "ghaction"
+  end
+
+  table.insert(lines, string.format("Detected filetype: %s", filetype))
+  table.insert(highlights, { "Title", #lines, 0, 18 })
+
+  table.insert(lines, "")
   table.insert(lines, "Linters for this buffer:")
   table.insert(highlights, { "Title", #lines, 0, -1 })
 
-  local buf_linters = lint.linters_by_ft[vim.bo.filetype] or {}
+  local buf_linters = lint.linters_by_ft[filetype] or {}
   append_linters(buf_linters)
   append_linter_info "typos" -- typos is used for any filetype
 
