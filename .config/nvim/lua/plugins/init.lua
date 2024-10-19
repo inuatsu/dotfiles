@@ -238,6 +238,7 @@ return {
         },
       },
       notification = {
+        poll_rate = 60,
         override_vim_notify = true,
       },
     },
