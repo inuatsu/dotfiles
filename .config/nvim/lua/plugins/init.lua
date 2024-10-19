@@ -215,4 +215,10 @@ return {
   },
 
   { "OXY2DEV/markview.nvim", ft = "markdown" },
+
+  {
+    "f-person/git-blame.nvim",
+    event = "BufReadPost",
+    opts = {},
+  },
 }
