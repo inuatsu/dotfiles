@@ -78,14 +78,7 @@ return {
     end,
   },
 
-  { "ixru/nvim-markdown" },
-
   { "echasnovski/mini.nvim", version = false },
-
-  {
-    "MeanderingProgrammer/render-markdown.nvim",
-    ft = { "markdown", "quarto" },
-  },
 
   {
     "petertriho/nvim-scrollbar",
@@ -220,4 +213,6 @@ return {
       },
     },
   },
+
+  { "OXY2DEV/markview.nvim", ft = "markdown" },
 }
