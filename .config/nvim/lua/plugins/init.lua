@@ -69,7 +69,7 @@ return {
 
   {
     "github/copilot.vim",
-    event = "VeryLazy",
+    event = "BufReadPost",
     config = function()
       vim.cmd [[
         imap <silent><script><expr> <C-J> copilot#Accept("\<CR>")
