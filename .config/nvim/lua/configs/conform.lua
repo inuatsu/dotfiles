@@ -1,5 +1,14 @@
 local utils = require "utils"
 
+local function init_msg_progress(title, msg)
+  return require("fidget.progress").handle.create {
+    title = title,
+    message = msg,
+    lsp_client = { name = "conform.nvim" },
+    percentage = nil,
+  }
+end
+
 local options = {
   formatters_by_ft = {
     css = { "prettierd", "stylelint" },
@@ -134,11 +143,31 @@ local options = {
       end,
     },
   },
-  format_on_save = {
-    -- These options will be passed to conform.format()
-    lsp_format = "fallback",
-    timeout_ms = 1000,
-  },
+  format_on_save = function(bufnr)
+    local conform = require "conform"
+    local formatters = conform.list_formatters()
+    local fmt_names = {}
+
+    if not vim.tbl_isempty(formatters) then
+      fmt_names = vim.tbl_map(function(f)
+        return f.name
+      end, formatters)
+    elseif select(2, conform.list_formatters_to_run(bufnr)) then
+      fmt_names = { "lsp" }
+    else
+      return
+    end
+
+    local msg_info = table.concat(fmt_names, "/") .. ": formatting current buffer"
+    local msg_handle = init_msg_progress(msg_info)
+    return {
+      -- These options will be passed to conform.format()
+      lsp_format = "fallback",
+      timeout_ms = 1000,
+    }, function(_)
+      msg_handle:finish()
+    end
+  end,
 }
 
 return options
