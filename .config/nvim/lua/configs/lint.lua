@@ -113,9 +113,22 @@ lint.linters.stylelint.cmd = function()
   end
 end
 
+local lint_fidget_notify = function()
+  local linters = require("lint").get_running()
+  if #linters > 0 then
+    require("fidget.progress").handle.create {
+      title = table.concat(linters, "/") .. " " .. "linting current buffer",
+      message = nil,
+      lsp_client = { name = "nvim-lint" },
+      percentage = nil,
+    }
+  end
+end
+
 vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost" }, {
   callback = function()
     lint.try_lint(nil, { ignore_errors = true })
     lint.try_lint("typos", { ignore_errors = true })
+    lint_fidget_notify()
   end,
 })
