@@ -7,12 +7,13 @@ Dotfiles for Ubuntu (or Ubuntu-based distros) and macOS
 
 ## Installation
 
-Clone this repository and execute check_prerequisites.sh and install.sh.
+Clone this repository and execute check_prerequisites.sh, link.sh and install.sh.
 
 ```bash
 git clone https://github.com/inuatsu/dotfiles.git
 cd dotfiles
 bash check_prerequisites.sh  # Check and install prerequisites
+bash link.sh
 bash install.sh
 ```
 
@@ -20,7 +21,7 @@ bash install.sh
 >
 > Install on your own risk!
 > Please review the code and understand what it does
-> before executing check_prerequisites.sh and install.sh.
+> before executing check_prerequisites.sh, link.sh and install.sh.
 
 ### Give it a try on Docker
 
@@ -48,14 +49,18 @@ After setup finished, execute `source .zshrc` and you can try it out.
 
 ## Toolboxes
 
-- [starship](https://starship.rs/): Shell prompt
-- [mise](https://mise.jdx.dev/): Manage languages, language servers and more
-- [NeoVim](https://neovim.io/): text editor
-  - [NvChad](https://nvchad.com/): Base configuration
-  - [lazy.nvim](https://lazy.folke.io/): Plugin manager
-  - [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig): LSP configuration
-  - [conform.nvim](https://github.com/stevearc/conform.nvim): Formatter configuration
-  - [nvim-lint](https://github.com/mfussenegger/nvim-lint): Linter configuration
+- [starship](https://starship.rs/) : Shell prompt
+- [mise](https://mise.jdx.dev/) : Manage languages, language servers and more
+- [sheldon](https://sheldon.cli.rs/) : Shell plugin manager
+- [NeoVim](https://neovim.io/) : text editor
+  - [NvChad](https://nvchad.com/) : Base configuration
+  - [lazy.nvim](https://lazy.folke.io/) : Plugin manager
+  - [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig) : LSP configuration
+  - [conform.nvim](https://github.com/stevearc/conform.nvim) : Formatter configuration
+  - [nvim-lint](https://github.com/mfussenegger/nvim-lint) : Linter configuration
+  - [fidget.nvim](https://github.com/j-hui/fidget.nvim) : LSP/formatter/linter progress notification
+  - [nvim-dbee](https://github.com/kndndrj/nvim-dbee) : Database client
+  - [codesnap.nvim](https://github.com/mistricky/codesnap.nvim) : Code snapshot
 
 ## Highlights
 
