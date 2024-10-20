@@ -25,8 +25,12 @@ jobs:
         run: |
           bash check_prerequisites.sh
           bash install.sh
-          source .zshrc
         shell: zsh {0}
         env:
           GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SHELL: /usr/bin/zsh
+      - name: Source .zshrc
+        run: source .zshrc
+        shell: zsh {0}
+        env:
           SHELL: /usr/bin/zsh

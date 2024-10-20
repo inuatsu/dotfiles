@@ -23,8 +23,12 @@ jobs:
           # Add ASDF_HASHICORP_SKIP_VERIFY=1 because it somehow fails verifying checksums and signatures
           # Add MISE_RUBY_BUILD_OPTS=--disable-shared because SIP is disabled on GHA macOS runner
           ASDF_HASHICORP_SKIP_VERIFY=1 MISE_RUBY_BUILD_OPTS=--disable-shared bash install.sh
-          source .zshrc
         shell: zsh {0}
         env:
           GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SHELL: /usr/bin/zsh
+      - name: Source .zshrc
+        run: source .zshrc
+        shell: zsh {0}
+        env:
           SHELL: /usr/bin/zsh
