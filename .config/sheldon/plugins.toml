@@ -1,0 +1,48 @@
+shell = "zsh"
+
+apply = ["defer"]
+
+[plugins]
+
+[plugins.zsh-defer]
+github = "romkatv/zsh-defer"
+apply = ["source"]
+
+[plugins.compinit]
+inline = "autoload -Uz compinit && zsh-defer compinit"
+
+[plugins.colors]
+inline = "autoload -Uz colors && zsh-defer colors"
+
+[plugins.zsh-autosuggestions]
+github = "zsh-users/zsh-autosuggestions"
+apply = ["defer"]
+
+[plugins.zsh-completions]
+github = "zsh-users/zsh-completions"
+apply = ["defer"]
+
+[plugins.fast-syntax-highlighting]
+github = "zdharma-continuum/fast-syntax-highlighting"
+apply = ["defer"]
+
+[plugins.history-search-multi-word]
+github = "zdharma-continuum/history-search-multi-word"
+apply = ["defer"]
+
+[plugins."z.lua"]
+github = "skywind3000/z.lua"
+apply = ["defer"]
+
+[plugins.mise]
+inline = 'eval "$(~/.local/bin/mise activate zsh)"'
+
+[plugins.starship]
+inline = 'eval "$(starship init zsh)"'
+
+[plugins.local-zsh-completions]
+local = "~/.config/zsh/completions"
+use = ["*.zsh"]
+
+[templates]
+defer = "{{ hooks?.pre | nl }}{% for file in files %}zsh-defer source \"{{ file }}\"\n{% endfor %}{{ hooks?.post | nl }}"
