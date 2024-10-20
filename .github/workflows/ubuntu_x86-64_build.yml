@@ -23,9 +23,9 @@ jobs:
           sudo apt-get install -y --no-install-recommends zsh
       - name: Install dev tools
         run: |
-          source .zshrc
           bash check_prerequisites.sh
           bash install.sh
+          source .zshrc
         shell: zsh {0}
         env:
           GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}

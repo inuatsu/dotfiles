@@ -31,6 +31,9 @@ eval "$(~/.local/bin/mise activate bash)"
 export PATH="$HOME/.local/share/mise/shims:$PATH"
 mise install -y
 
+curl --proto '=https' -fLsS https://rossmacarthur.github.io/install/crate.sh \
+    | bash -s -- --repo rossmacarthur/sheldon --to ${HOME}/.local/bin
+
 mkdir -p ${HOME}/bin ${HOME}/lib ${HOME}/share
 
 echo "Installing NeoVim..."
