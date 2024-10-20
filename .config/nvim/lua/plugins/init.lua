@@ -228,4 +228,17 @@ return {
     dependencies = { "MunifTanjim/nui.nvim", "nvim-lua/plenary.nvim" },
     opts = {},
   },
+
+  {
+    "mistricky/codesnap.nvim",
+    build = "make",
+    event = "BufReadPost",
+    opts = {
+      save_path = os.getenv "HOME" .. "/Pictures/codesnap",
+      bg_padding = 0,
+      code_font_family = "DaddyTimeMono Nerd Font",
+      has_breadcrumbs = true,
+      has_line_number = true,
+    },
+  },
 }

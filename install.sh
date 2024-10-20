@@ -85,4 +85,7 @@ corepack pnpm add -g \
   yaml-language-server
 echo "npm packages installed."
 
+mkdir -p ${HOME}/Pictures/codesnap
+echo "codesnap directory created."
+
 echo "Setup complete."
