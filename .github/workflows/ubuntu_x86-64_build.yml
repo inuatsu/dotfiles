@@ -24,6 +24,7 @@ jobs:
       - name: Install dev tools
         run: |
           bash check_prerequisites.sh
+          bash link.sh
           bash install.sh
         shell: zsh {0}
         env:

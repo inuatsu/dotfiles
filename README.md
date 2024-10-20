@@ -38,6 +38,7 @@ hit the command below to start installation on the container.
 ```bash
 cd dotfiles
 bash check_prerequisites.sh
+bash link.sh
 bash install.sh
 ```
 
