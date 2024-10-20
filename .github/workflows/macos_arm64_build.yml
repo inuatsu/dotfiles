@@ -20,6 +20,7 @@ jobs:
       - name: Install dev tools
         run: |
           bash check_prerequisites.sh
+          bash link.sh
           # Add ASDF_HASHICORP_SKIP_VERIFY=1 because it somehow fails verifying checksums and signatures
           # Add MISE_RUBY_BUILD_OPTS=--disable-shared because SIP is disabled on GHA macOS runner
           ASDF_HASHICORP_SKIP_VERIFY=1 MISE_RUBY_BUILD_OPTS=--disable-shared bash install.sh
