@@ -7,21 +7,18 @@ Dotfiles for Ubuntu (or Ubuntu-based distros) and macOS
 
 ## Installation
 
-Clone this repository and execute check_prerequisites.sh, link.sh and install.sh.
+Clone this repository and execute install.sh.
 
 ```bash
 git clone https://github.com/inuatsu/dotfiles.git
 cd dotfiles
-bash check_prerequisites.sh  # Check and install prerequisites
-bash link.sh
 bash install.sh
 ```
 
 > [!CAUTION]
 >
 > Install on your own risk!
-> Please review the code and understand what it does
-> before executing check_prerequisites.sh, link.sh and install.sh.
+> Please review the code and understand what it does before executing install.sh.
 
 ### Give it a try on Docker
 
@@ -38,12 +35,10 @@ hit the command below to start installation on the container.
 
 ```bash
 cd dotfiles
-bash check_prerequisites.sh
-bash link.sh
 bash install.sh
 ```
 
-Get a cup of ☕ or 🍵 while waiting for setup completion. It takes about 5-10 minutes.
+Get a cup of ☕ or 🍵 while waiting for setup completion. It takes about 5 minutes.
 
 After setup finished, execute `source .zshrc` and you can try it out.
 
