@@ -40,7 +40,7 @@ bash install.sh
 
 Get a cup of ☕ or 🍵 while waiting for setup completion. It takes about 5 minutes.
 
-After setup finished, execute `source .zshrc` and you can try it out.
+After setup finished, execute `zsh -l` and you can try it out.
 
 ## Toolboxes
 
