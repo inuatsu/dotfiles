@@ -131,18 +131,6 @@ return {
   },
 
   {
-    "AckslD/nvim-neoclip.lua",
-    event = "BufReadPost",
-    dependencies = {
-      { "kkharji/sqlite.lua", module = "sqlite" },
-      { "nvim-telescope/telescope.nvim" },
-    },
-    opts = {
-      enable_persistent_history = true,
-    },
-  },
-
-  {
     "mfussenegger/nvim-lint",
     event = { "BufReadPre", "BufNewFile" },
     config = function()
