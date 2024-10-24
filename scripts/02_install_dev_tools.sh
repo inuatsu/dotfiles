@@ -15,6 +15,13 @@ case "$(uname -s)" in
     ;;
 esac
 
+install_starship() {
+  if [ ! -d /usr/local/bin ]; then
+    sudo mkdir -p /usr/local/bin
+  fi
+  sh -c "$(curl -sS https://starship.rs/install.sh)" -y -f
+}
+
 install_mise() {
   if [ ! -d ${HOME}/.local/share/mise ]; then
     curl https://mise.run | sh
@@ -95,7 +102,7 @@ install_npm_packages() {
   echo "npm packages installed."
 }
 
-sh -c "$(curl -sS https://starship.rs/install.sh)" -y -f & pids+=($!)
+install_starship & pids+=($!)
 install_mise & pids+=($!)
 install_sheldon & pids+=($!)
 install_neovim & pids+=($!)

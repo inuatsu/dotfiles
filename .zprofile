@@ -10,3 +10,15 @@ if [ -d "$HOME/.local/bin" ] ; then
     PATH="$HOME/.local/bin:$PATH"
 fi
 
+if [ "$(uname -s)" = "Darwin" ]; then
+  ARCH="$(uname -m)"
+  if [ "$ARCH" = "arm64" ]; then
+    if [ -e /opt/homebrew/bin/brew ]; then
+      eval "$(/opt/homebrew/bin/brew shellenv)"
+    fi
+  elif [ "$ARCH" = "x86_64" ]; then
+    if [ -e /usr/local/bin/brew ]; then
+      eval "$(/usr/local/bin/brew shellenv)"
+    fi
+  fi
+fi
