@@ -1,5 +1,6 @@
 [tools]
 actionlint = "latest"
+ecspresso = "latest"
 github-cli = "latest"
 go = "latest"
 hadolint = "latest"
