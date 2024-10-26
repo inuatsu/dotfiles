@@ -47,6 +47,25 @@ install_sheldon() {
   fi
 }
 
+update_docker_config() {
+  DOCKER_CONFIG="${HOME}/.docker/config.json"
+  PLUGIN_KEY="cliPluginsExtraDirs"
+  PLUGIN_VALUE="/opt/homebrew/lib/docker/cli-plugins"
+
+  if [[ ! -f "${DOCKER_CONFIG}" ]]; then
+    mkdir -p ${HOME}/.docker
+    echo "{}" > "${DOCKER_CONFIG}"
+  fi
+
+  if ! jq -e ".${PLUGIN_KEY}" "${DOCKER_CONFIG}" > /dev/null; then
+    jq --arg key "${PLUGIN_KEY}" --arg value "${PLUGIN_VALUE}" '. + {($key): [$value]}' "${DOCKER_CONFIG}" > "${DOCKER_CONFIG}.tmp" && \
+      mv "${DOCKER_CONFIG}.tmp" "${DOCKER_CONFIG}"
+    echo "Added ${PLUGIN_KEY} to ${DOCKER_CONFIG}."
+  else
+    echo "${PLUGIN_KEY} already exists in ${DOCKER_CONFIG}."
+  fi
+}
+
 install_docker() {
   if [ "${machine}" = "Linux" ]; then
     if ! command -v docker &> /dev/null; then
@@ -75,6 +94,7 @@ install_docker() {
       echo "Installing docker compose..."
       brew install docker-compose docker-credential-helper colima
     fi
+    update_docker_config
     brew services start colima
     echo "docker and docker compose installed."
   fi
