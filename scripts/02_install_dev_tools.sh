@@ -39,21 +39,9 @@ install_sheldon() {
   fi
 }
 
-install_neovim() {
-  mkdir -p ${HOME}/bin ${HOME}/lib ${HOME}/share
-  echo "Installing NeoVim..."
-  if [ "${machine}" = "Linux" ]; then
-    curl -fsSL https://github.com/neovim/neovim/releases/download/v0.10.2/nvim-linux64.tar.gz \
-      | tar xz --strip-components=1 -C ${HOME}
-  elif [ "${machine}" = "macOS" ]; then
-    curl -fsSL https://github.com/neovim/neovim/releases/download/v0.10.2/nvim-macos-arm64.tar.gz \
-      | tar xz --strip-components=1 -C ${HOME}
-  fi
-  echo "NeoVim installed."
-}
-
 install_typos_lsp() {
   echo "Installing typos-lsp..."
+  mkdir -p ${HOME}/bin
   if [ "${machine}" = "Linux" ]; then
     curl -fsSL https://github.com/tekumara/typos-lsp/releases/download/v0.1.27/typos-lsp-v0.1.27-x86_64-unknown-linux-gnu.tar.gz \
       | tar xz -C ${HOME}/bin
@@ -62,6 +50,24 @@ install_typos_lsp() {
       | tar xz -C ${HOME}/bin
   fi
   echo "typos-lsp installed."
+}
+
+# awscli cannot be installed without Rosetta 2 on macOS with mise
+install_awscli() {
+  if ! command -v aws &> /dev/null; then
+    echo "Installing awscli..."
+    if [ "${machine}" = "Linux" ]; then
+      curl "https://awscli.amazonaws.com/awscli-exe-linux-$(uname -m).zip" -o "awscliv2.zip"
+      unzip -u awscliv2.zip
+      sudo ./aws/install
+      rm -r ./aws
+    elif [ "${machine}" = "macOS" ]; then
+      brew install awscli
+    fi
+    echo "awscli installed."
+  else
+    echo "awscli is already installed."
+  fi
 }
 
 install_taplo_cli() {
@@ -105,7 +111,6 @@ install_npm_packages() {
 install_starship & pids+=($!)
 install_mise & pids+=($!)
 install_sheldon & pids+=($!)
-install_neovim & pids+=($!)
 install_typos_lsp & pids+=($!)
 
 rv=0
@@ -119,6 +124,7 @@ fi
 
 eval "$(~/.local/bin/mise activate bash)"
 export PATH="$HOME/.local/share/mise/shims:$PATH"
+install_awscli & pids+=($!)
 install_taplo_cli & pids+=($!)
 install_gems & pids+=($!)
 install_npm_packages & pids+=($!)
