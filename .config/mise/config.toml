@@ -1,11 +1,13 @@
 [tools]
 actionlint = "latest"
+aws-sso-cli = "latest"
 ecspresso = "latest"
 github-cli = "latest"
 go = "latest"
 hadolint = "latest"
 lua = "latest"
 lua-language-server = "latest"
+neovim = "latest"
 node = "20.12.2"
 poetry = "latest"
 python = "3.11.9"
