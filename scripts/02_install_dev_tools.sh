@@ -47,6 +47,59 @@ install_sheldon() {
   fi
 }
 
+update_docker_config() {
+  DOCKER_CONFIG="${HOME}/.docker/config.json"
+  PLUGIN_KEY="cliPluginsExtraDirs"
+  PLUGIN_VALUE="/opt/homebrew/lib/docker/cli-plugins"
+
+  if [[ ! -f "${DOCKER_CONFIG}" ]]; then
+    mkdir -p ${HOME}/.docker
+    echo "{}" > "${DOCKER_CONFIG}"
+  fi
+
+  if ! jq -e ".${PLUGIN_KEY}" "${DOCKER_CONFIG}" > /dev/null; then
+    jq --arg key "${PLUGIN_KEY}" --arg value "${PLUGIN_VALUE}" '. + {($key): [$value]}' "${DOCKER_CONFIG}" > "${DOCKER_CONFIG}.tmp" && \
+      mv "${DOCKER_CONFIG}.tmp" "${DOCKER_CONFIG}"
+    echo "Added ${PLUGIN_KEY} to ${DOCKER_CONFIG}."
+  else
+    echo "${PLUGIN_KEY} already exists in ${DOCKER_CONFIG}."
+  fi
+}
+
+install_docker() {
+  if [ "${machine}" = "Linux" ]; then
+    if ! command -v docker &> /dev/null; then
+      echo "Installing docker..."
+      curl -fsSL https://get.docker.com -o get-docker.sh
+      sudo bash get-docker.sh
+      rm get-docker.sh
+      sudo groupadd docker
+      sudo usermod -aG docker $USER
+      newgrp docker
+      sudo systemctl enable docker.service
+      sudo systemctl enable containerd.service
+      echo "docker installed."
+    fi
+    echo "Installing docker compose..."
+    DOCKER_CONFIG=${DOCKER_CONFIG:-$HOME/.docker}
+    mkdir -p $DOCKER_CONFIG/cli-plugins
+    curl -SL https://github.com/docker/compose/releases/download/v2.29.7/docker-compose-linux-$(uname -m) -o $DOCKER_CONFIG/cli-plugins/docker-compose
+    chmod +x $DOCKER_CONFIG/cli-plugins/docker-compose
+    echo "docker compose installed."
+  elif [ "${machine}" = "macOS" ]; then
+    if ! command -v docker &> /dev/null; then
+      echo "Installing docker and docker compose..."
+      brew install docker docker-compose docker-credential-helper colima
+    else
+      echo "Installing docker compose..."
+      brew install docker-compose docker-credential-helper colima
+    fi
+    update_docker_config
+    brew services start colima
+    echo "docker and docker compose installed."
+  fi
+}
+
 install_typos_lsp() {
   if ! command -v typos-lsp &> /dev/null; then
     echo "Installing typos-lsp..."
@@ -127,6 +180,7 @@ install_npm_packages() {
 install_starship & pids+=($!)
 install_mise & pids+=($!)
 install_sheldon & pids+=($!)
+install_docker & pids+=($!)
 install_typos_lsp & pids+=($!)
 
 rv=0
