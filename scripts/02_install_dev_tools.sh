@@ -54,19 +54,20 @@ install_typos_lsp() {
 
 # awscli cannot be installed without Rosetta 2 on macOS with mise
 install_awscli() {
-  echo "Installing awscli..."
-  if [ "${machine}" = "Linux" ]; then
-    curl -o awscli.tar.gz https://awscli.amazonaws.com/awscli-2.18.15.tar.gz
-    tar -xzf awscli-2.18.15.tar.gz
-    rm awscli-2.18.15.tar.gz
-    cd awscli-2.18.15
-    make
-    make install
-    cd ../
-  elif [ "${machine}" = "macOS" ]; then
-    brew install awscli
+  if ! command -v aws &> /dev/null; then
+    echo "Installing awscli..."
+    if [ "${machine}" = "Linux" ]; then
+      curl "https://awscli.amazonaws.com/awscli-exe-linux-$(uname -m).zip" -o "awscliv2.zip"
+      unzip -u awscliv2.zip
+      sudo ./aws/install
+      rm -r ./aws
+    elif [ "${machine}" = "macOS" ]; then
+      brew install awscli
+    fi
+    echo "awscli installed."
+  else
+    echo "awscli is already installed."
   fi
-  echo "awscli installed."
 }
 
 install_taplo_cli() {
