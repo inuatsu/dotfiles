@@ -16,10 +16,14 @@ case "$(uname -s)" in
 esac
 
 install_starship() {
-  if [ ! -d /usr/local/bin ]; then
-    sudo mkdir -p /usr/local/bin
+  if ! command -v starship &> /dev/null; then
+    if [ ! -d /usr/local/bin ]; then
+      sudo mkdir -p /usr/local/bin
+    fi
+    sh -c "$(curl -sS https://starship.rs/install.sh)" -y -f
+  else
+    echo "starship already installed."
   fi
-  sh -c "$(curl -sS https://starship.rs/install.sh)" -y -f
 }
 
 install_mise() {
@@ -31,25 +35,33 @@ install_mise() {
 }
 
 install_sheldon() {
-  if [ "${machine}" = "Linux" ]; then
-    curl --proto '=https' -fLsS https://rossmacarthur.github.io/install/crate.sh \
-      | bash -s -- --repo rossmacarthur/sheldon --to ${HOME}/.local/bin
-  elif [ "${machine}" = "macOS" ]; then
-    brew install sheldon
+  if ! command -v sheldon &> /dev/null; then
+    if [ "${machine}" = "Linux" ]; then
+      curl --proto '=https' -fLsS https://rossmacarthur.github.io/install/crate.sh \
+        | bash -s -- --repo rossmacarthur/sheldon --to ${HOME}/.local/bin
+    elif [ "${machine}" = "macOS" ]; then
+      brew install sheldon
+    fi
+  else
+    echo "sheldon already installed."
   fi
 }
 
 install_typos_lsp() {
-  echo "Installing typos-lsp..."
-  mkdir -p ${HOME}/bin
-  if [ "${machine}" = "Linux" ]; then
-    curl -fsSL https://github.com/tekumara/typos-lsp/releases/download/v0.1.27/typos-lsp-v0.1.27-x86_64-unknown-linux-gnu.tar.gz \
-      | tar xz -C ${HOME}/bin
-  elif [ "${machine}" = "macOS" ]; then
-    curl -fsSL https://github.com/tekumara/typos-lsp/releases/download/v0.1.27/typos-lsp-v0.1.27-aarch64-apple-darwin.tar.gz \
-      | tar xz -C ${HOME}/bin
+  if ! command -v typos-lsp &> /dev/null; then
+    echo "Installing typos-lsp..."
+    mkdir -p ${HOME}/bin
+    if [ "${machine}" = "Linux" ]; then
+      curl -fsSL https://github.com/tekumara/typos-lsp/releases/download/v0.1.27/typos-lsp-v0.1.27-x86_64-unknown-linux-gnu.tar.gz \
+        | tar xz -C ${HOME}/bin
+    elif [ "${machine}" = "macOS" ]; then
+      curl -fsSL https://github.com/tekumara/typos-lsp/releases/download/v0.1.27/typos-lsp-v0.1.27-aarch64-apple-darwin.tar.gz \
+        | tar xz -C ${HOME}/bin
+    fi
+    echo "typos-lsp installed."
+  else
+    echo "typos-lsp already installed."
   fi
-  echo "typos-lsp installed."
 }
 
 # awscli cannot be installed without Rosetta 2 on macOS with mise
@@ -66,14 +78,18 @@ install_awscli() {
     fi
     echo "awscli installed."
   else
-    echo "awscli is already installed."
+    echo "awscli already installed."
   fi
 }
 
 install_taplo_cli() {
-  echo "Installing taplo-cli..."
-  cargo install --features lsp --locked taplo-cli
-  echo "taplo-cli installed."
+  if ! command -v taplo &> /dev/null; then
+    echo "Installing taplo-cli..."
+    cargo install --features lsp --locked taplo-cli
+    echo "taplo-cli installed."
+  else
+    echo "taplo already installed."
+  fi
 }
 
 install_gems() {
