@@ -41,6 +41,7 @@ install_sheldon() {
 
 install_typos_lsp() {
   echo "Installing typos-lsp..."
+  mkdir -p ${HOME}/bin
   if [ "${machine}" = "Linux" ]; then
     curl -fsSL https://github.com/tekumara/typos-lsp/releases/download/v0.1.27/typos-lsp-v0.1.27-x86_64-unknown-linux-gnu.tar.gz \
       | tar xz -C ${HOME}/bin
