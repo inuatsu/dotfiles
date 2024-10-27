@@ -73,7 +73,7 @@ install_docker() {
       curl -fsSL https://get.docker.com -o get-docker.sh
       sudo bash get-docker.sh
       rm get-docker.sh
-      sudo groupadd docker
+      sudo groupadd -f docker
       sudo usermod -aG docker $USER
       newgrp docker
       sudo systemctl enable docker.service
@@ -124,6 +124,7 @@ install_awscli() {
     if [ "${machine}" = "Linux" ]; then
       curl "https://awscli.amazonaws.com/awscli-exe-linux-$(uname -m).zip" -o "awscliv2.zip"
       unzip -u awscliv2.zip
+      rm awscliv2.zip
       sudo ./aws/install
       rm -r ./aws
     elif [ "${machine}" = "macOS" ]; then

@@ -42,6 +42,85 @@ Get a cup of ☕ or 🍵 while waiting for setup completion. It takes about 5 mi
 
 After setup finished, execute `zsh -l` and you can try it out.
 
+> [!WARNING]
+> On arm64 macOS, it may be necessary to use VM with [lima](https://github.com/lima-vm/lima) to successfully install everything on docker.
+> Refer to the following steps to run docker on VM with lima.
+>
+> 1. Install lima with homebrew.
+>
+>    ```bash
+>    brew install lima
+>    ```
+>
+> 2. Create configuration file of VM.
+>
+>    ```bash
+>    cat << 'EOF' > jammy-amd64.yaml
+>    cpus: 4
+>    memory: "10GiB"
+>    disk: "50GiB"
+>
+>    arch: "x86_64"
+>    images:
+>    - location: "https://cloud-images.ubuntu.com/jammy/current/jammy-server-cloudimg-amd64.img"
+>      arch: "x86_64"
+>    EOF
+>    ```
+>
+> 3. Validate the format of created yaml file.
+>
+>    ```bash
+>    limactl validate jammy-amd64.yaml
+>    ```
+>
+> 4. Start VM (this command takes a few minutes to complete).
+>
+>    ```bash
+>    limactl start --tty=false jammy-amd64.yaml
+>    ```
+>
+> 5. Login to VM.
+>
+>    ```bash
+>    limactl shell jammy-amd64
+>    ```
+>
+> 6. Install docker and docker compose on VM.
+>
+>    ```bash
+>    sudo apt-get update
+>    sudo apt-get install ca-certificates curl
+>    sudo install -m 0755 -d /etc/apt/keyrings
+>    sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+>    sudo chmod a+r /etc/apt/keyrings/docker.asc
+>    echo \
+>      "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+>      $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+>      sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+>    sudo apt-get update
+>    sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+>    ```
+>
+> 7. Clone this repository.
+>
+>    ```bash
+>    git clone https://github.com/inuatsu/dotfiles.git
+>    ```
+>
+> 8. Start docker container.
+>
+>    ```bash
+>    cd dotfiles
+>    sudo docker compose run --build --rm test /bin/zsh
+>    ```
+>
+> After finished using the VM, remove it with the following commands.
+>
+> ```bash
+> limactl stop jammy-amd64
+> limactl delete jammy-amd64
+> ```
+
 ## Toolboxes
 
 - [starship](https://starship.rs/) : Shell prompt
