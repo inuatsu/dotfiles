@@ -206,10 +206,3 @@ format = '\[[$symbol($output)]($style)\]'
 symbol = "🌐 "
 description = "Current global IP address"
 when = true
-
-[custom.weather]
-command = "curl 'wttr.in?format=2'"
-ignore_timeout = true
-format = '\[[$symbol($output)]($style)\]'
-description = "Current weather"
-when = ''' test "$HOME" = "$PWD" '''
