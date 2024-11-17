@@ -36,7 +36,7 @@ install_wezterm() {
         sudo mkdir -p /usr/local/bin
       fi
       sudo mv ./WezTerm-20240203-110809-5046fc22-Ubuntu20.04.AppImage /usr/local/bin/wezterm
-    elif [ "${machine}" = "macOS"]; then
+    elif [ "${machine}" = "macOS" ]; then
       curl -LO https://github.com/wez/wezterm/releases/download/20240203-110809-5046fc22/WezTerm-macos-20240203-110809-5046fc22.zip
       unzip WezTerm-macos-20240203-110809-5046fc22.zip
       cp WezTerm-macos-20240203-110809-5046fc22/WezTerm.app /Applications/WezTerm.app
