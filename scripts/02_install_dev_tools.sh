@@ -28,6 +28,7 @@ install_starship() {
 
 install_wezterm() {
   if ! command -v wezterm &> /dev/null; then
+    echo "Installing WezTerm..."
     if [ "${machine}" = "Linux" ]; then
       curl -LO https://github.com/wez/wezterm/releases/download/20240203-110809-5046fc22/WezTerm-20240203-110809-5046fc22-Ubuntu20.04.AppImage
       chmod +x WezTerm-20240203-110809-5046fc22-Ubuntu20.04.AppImage
@@ -42,6 +43,9 @@ install_wezterm() {
       rm WezTerm-macos-20240203-110809-5046fc22.zip
       rm -r WezTerm-macos-20240203-110809-5046fc22
     fi
+    echo "WezTerm installed."
+  else
+    echo "WezTerm already installed."
   fi
 }
 
