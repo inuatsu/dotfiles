@@ -26,6 +26,25 @@ install_starship() {
   fi
 }
 
+install_wezterm() {
+  if ! command -v wezterm &> /dev/null; then
+    if [ "${machine}" = "Linux" ]; then
+      curl -LO https://github.com/wez/wezterm/releases/download/20240203-110809-5046fc22/WezTerm-20240203-110809-5046fc22-Ubuntu20.04.AppImage
+      chmod +x WezTerm-20240203-110809-5046fc22-Ubuntu20.04.AppImage
+      if [ ! -d /usr/local/bin ]; then
+        sudo mkdir -p /usr/local/bin
+      fi
+      sudo mv ./WezTerm-20240203-110809-5046fc22-Ubuntu20.04.AppImage /usr/local/bin/wezterm
+    elif [ "${machine}" = "macOS"]; then
+      curl -LO https://github.com/wez/wezterm/releases/download/20240203-110809-5046fc22/WezTerm-macos-20240203-110809-5046fc22.zip
+      unzip WezTerm-macos-20240203-110809-5046fc22.zip
+      cp WezTerm-macos-20240203-110809-5046fc22/WezTerm.app /Applications/WezTerm.app
+      rm WezTerm-macos-20240203-110809-5046fc22.zip
+      rm -r WezTerm-macos-20240203-110809-5046fc22
+    fi
+  fi
+}
+
 install_mise() {
   if [ ! -d ${HOME}/.local/share/mise ]; then
     curl https://mise.run | sh
@@ -179,6 +198,7 @@ install_npm_packages() {
 }
 
 install_starship & pids+=($!)
+install_wezterm & pids+=($!)
 install_mise & pids+=($!)
 install_sheldon & pids+=($!)
 install_docker & pids+=($!)
