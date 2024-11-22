@@ -37,15 +37,11 @@ apply = ["defer"]
 github = "skywind3000/z.lua"
 apply = ["defer"]
 
-[plugins.mise]
-inline = 'eval "$(~/.local/bin/mise activate zsh)"'
-
 [plugins.starship]
 inline = 'eval "$(starship init zsh)"'
 
 [plugins.local-zsh-completions]
 local = "~/.config/zsh/completions"
-use = ["*.zsh"]
 apply = ["defer"]
 
 [templates]
