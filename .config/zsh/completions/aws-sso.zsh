@@ -12,7 +12,7 @@
 
 __aws_sso_profile_complete() {
   local _args=${AWS_SSO_HELPER_ARGS:- -L error}
-  _multi_parts : "($(${HOME}/.local/share/mise/installs/aws-sso-cli/latest/bin/aws-sso ${=_args} list --csv Profile))"
+  _multi_parts : "($(aws-sso ${=_args} list --csv Profile))"
 }
 
 aws-sso-profile() {
@@ -27,7 +27,7 @@ aws-sso-profile() {
     return 1
   fi
 
-  eval $(${HOME}/.local/share/mise/installs/aws-sso-cli/latest/bin/aws-sso ${=_args} eval -p "$1")
+  eval $(aws-sso ${=_args} eval -p "$1")
   if [ "$AWS_SSO_PROFILE" != "$1" ]; then
     return 1
   fi
@@ -39,10 +39,10 @@ aws-sso-clear() {
     echo "AWS_SSO_PROFILE is not set"
     return 1
   fi
-  eval $(${HOME}/.local/share/mise/installs/aws-sso-cli/latest/bin/aws-sso ${=_args} eval -c)
+  eval $(aws-sso ${=_args} eval -c)
 }
 
 compdef __aws_sso_profile_complete aws-sso-profile
-complete -C ${HOME}/.local/share/mise/installs/aws-sso-cli/latest/bin/aws-sso aws-sso
+complete -C aws-sso aws-sso
 
 # END_AWS_SSO_CLI
