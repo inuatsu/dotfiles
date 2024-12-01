@@ -229,4 +229,16 @@ return {
       has_line_number = true,
     },
   },
+
+  {
+    "rachartier/tiny-inline-diagnostic.nvim",
+    event = "LspAttach",
+    priority = 1000,
+    opts = {
+      options = {
+        multilines = true,
+        virt_texts = { priority = 4500 }, -- Avoid conflict with git-blame.nvim
+      },
+    },
+  },
 }
