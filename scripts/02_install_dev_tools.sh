@@ -159,16 +159,6 @@ install_awscli() {
   fi
 }
 
-install_taplo_cli() {
-  if ! command -v taplo &> /dev/null; then
-    echo "Installing taplo-cli..."
-    cargo install --features lsp --locked taplo-cli
-    echo "taplo-cli installed."
-  else
-    echo "taplo already installed."
-  fi
-}
-
 install_gems() {
   echo "Installing RuboCop and Ruby LSP..."
   gem install rubocop ruby-lsp
@@ -220,7 +210,6 @@ fi
 eval "$(~/.local/bin/mise activate bash)"
 export PATH="$HOME/.local/share/mise/shims:$PATH"
 install_awscli & pids+=($!)
-install_taplo_cli & pids+=($!)
 install_gems & pids+=($!)
 install_npm_packages & pids+=($!)
 
