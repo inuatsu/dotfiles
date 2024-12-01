@@ -236,6 +236,7 @@ return {
     priority = 1000,
     opts = {
       options = {
+        show_source = true,
         multilines = true,
         virt_texts = { priority = 4500 }, -- Avoid conflict with git-blame.nvim
       },
