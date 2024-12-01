@@ -17,6 +17,9 @@ local servers = {
 }
 local nvlsp = require "nvchad.configs.lspconfig"
 
+-- Avoid conflict with tiny-inline-diagnostic.nvim
+vim.diagnostic.config { virtual_text = false }
+
 -- lsps with default config
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup {
