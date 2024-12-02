@@ -13,32 +13,38 @@ end
 
 -- Function that waits for specified LSP to attach and then calls the provided callback
 function M.wait_for_lsp(lsp_name, callback)
-  local timer = vim.loop.new_timer()
+  local timer = vim.uv.new_timer()
   local interval = 100 -- Check every 100ms
   local max_attempts = 50 -- Maximum attempts before timeout (e.g., 5 seconds)
 
   local attempts = 0
 
   -- Start the polling loop
-  timer:start(
-    0,
-    interval,
-    vim.schedule_wrap(function()
-      attempts = attempts + 1
+  if timer ~= nil then
+    timer:start(
+      0,
+      interval,
+      vim.schedule_wrap(function()
+        attempts = attempts + 1
 
-      if is_lsp_attached(lsp_name) then
-        -- If LSP is attached, stop the timer and run the callback
-        timer:stop()
-        timer:close()
-        callback()
-      elseif attempts >= max_attempts then
-        -- Stop checking after max attempts (timeout)
-        timer:stop()
-        timer:close()
-        vim.notify("pyright not activated in time", vim.log.levels.WARN)
-      end
-    end)
-  )
+        if is_lsp_attached(lsp_name) then
+          -- If LSP is attached, stop the timer and run the callback
+          timer:stop()
+          if not timer:is_closing() then
+            timer:close()
+          end
+          callback()
+        elseif attempts >= max_attempts then
+          -- Stop checking after max attempts (timeout)
+          timer:stop()
+          if not timer:is_closing() then
+            timer:close()
+          end
+          vim.notify(string.format("%s not activated in time", lsp_name), vim.log.levels.WARN)
+        end
+      end)
+    )
+  end
 end
 
 -- Function to check for a project root in the current and parent directories
