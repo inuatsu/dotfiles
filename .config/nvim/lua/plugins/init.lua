@@ -159,20 +159,8 @@ return {
         opts = {},
       },
     },
-    config = function(_, opts)
-      local myopts = {
-        sources = {
-          { name = "nvim_lsp" },
-          { name = "luasnip" },
-          { name = "buffer" },
-          { name = "nvim_lua" },
-          { name = "path" },
-          { name = "cmp-dbee" },
-        },
-      }
-
-      opts = vim.tbl_deep_extend("force", myopts, opts)
-      require("cmp").setup(opts)
+    opts = function()
+      return require "configs.cmp"
     end,
   },
 
