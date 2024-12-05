@@ -10,6 +10,7 @@ local servers = {
   "html",
   "pyright",
   "ruby_lsp",
+  "sqlls",
   "taplo",
   "terraformls",
   "typos_lsp",

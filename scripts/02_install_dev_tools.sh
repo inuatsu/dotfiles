@@ -179,6 +179,7 @@ install_npm_packages() {
     markdown-toc \
     markdownlint-cli2 \
     pyright \
+    sql-language-server \
     stylelint \
     stylelint-config-recommended-scss \
     stylelint-config-standard \
@@ -186,6 +187,7 @@ install_npm_packages() {
     stylelint-scss \
     typescript \
     typescript-language-server \
+    vscode-jsonrpc \
     vscode-langservers-extracted \
     yaml-language-server
   echo "npm packages installed."
