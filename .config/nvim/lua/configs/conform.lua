@@ -16,7 +16,7 @@ local options = {
     javascript = { "biome-check", "eslint_d", "prettierd" },
     javascriptreact = { "biome-check", "eslint_d", "prettierd" },
     lua = { "stylua" },
-    markdown = { "markdownlint-cli2", "markdown-toc", "prettierd" },
+    markdown = { "markdownlint-cli2", "markdown-toc", "prettierd", "textlint" },
     python = { "black", "isort", "ruff_fix", "ruff_format", "ruff_organize_imports" },
     ruby = { "rubocop" },
     scss = { "prettierd", "stylelint" },
@@ -142,6 +142,34 @@ local options = {
         end
       end,
     },
+    textlint = {
+      meta = {
+        url = "https://github.com/textlint/textlint",
+        description = "The pluggable natural language linter for text and markdown.",
+      },
+      command = function()
+        local current_file_path = vim.fn.expand "%:p:h"
+        local target_path = utils.recursive_find_project_root(current_file_path, "node_modules")
+        if target_path and vim.fn.filereadable(string.format("%s/.bin/textlint", target_path)) == 1 then
+          return string.format("%s/.bin/textlint", target_path)
+        else
+          return "textlint"
+        end
+      end,
+      stdin = true,
+      args = {
+        "--fix",
+        "--stdin",
+        "--stdin-filename",
+        "$FILENAME",
+        "--format",
+        "fixed-result",
+        "--dry-run",
+      },
+      cwd = require("conform.util").root_file({
+        "package.json",
+      })
+    }
   },
   format_on_save = function(bufnr)
     local conform = require "conform"
@@ -163,7 +191,7 @@ local options = {
     return {
       -- These options will be passed to conform.format()
       lsp_format = "fallback",
-      timeout_ms = 1000,
+      timeout_ms = 3000,
     }, function(_)
       msg_handle:finish()
     end
