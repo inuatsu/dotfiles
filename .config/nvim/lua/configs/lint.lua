@@ -17,7 +17,7 @@ lint.linters_by_ft = {
   ghaction = { "actionlint" },
   javascript = { "biomejs", "eslint" },
   javascriptreact = { "biomejs", "eslint" },
-  markdown = { "markdownlint-cli2" },
+  markdown = { "markdownlint-cli2", "textlint" },
   python = { "flake8", "mypy", "ruff" },
   ruby = { "rubocop" },
   scss = { "stylelint" },
@@ -112,6 +112,61 @@ lint.linters.stylelint.cmd = function()
     return "stylelint"
   end
 end
+
+local severities = {
+  [0] = vim.diagnostic.severity.INFO,
+  [1] = vim.diagnostic.severity.WARN,
+  [2] = vim.diagnostic.severity.ERROR,
+}
+
+lint.linters.textlint = {
+  cmd = function()
+    local current_file_path = vim.fn.expand "%:p:h"
+    local target_path = utils.recursive_find_project_root(current_file_path, "node_modules")
+    if target_path and vim.fn.filereadable(string.format("%s/.bin/textlint", target_path)) == 1 then
+      return string.format("%s/.bin/textlint", target_path)
+    else
+      return "textlint"
+    end
+  end,
+  stdin = true,
+  args = {
+    "--format",
+    "json",
+    "--stdin",
+    "--stdin-filename",
+    function()
+      return vim.api.nvim_buf_get_name(0)
+    end,
+  },
+  ignore_exitcode = true,
+  stream = "stdout",
+  parser = function(output)
+    if output == "" then
+      return {}
+    end
+    local decoded = vim.json.decode(output)
+    if decoded == nil then
+      return {}
+    end
+    local diagnostics = {}
+    for _, value in ipairs(decoded) do
+      for _, item in ipairs(value.messages) do
+        table.insert(diagnostics, {
+          message = item.message,
+          col = item.loc.start.column - 1,
+          end_col = item.loc["end"].column - 1,
+          lnum = item.loc.start.line - 1,
+          end_lnum = item.loc["end"].line - 1,
+          code = item.ruleId,
+          severity = severities[item.severity],
+          source = "textlint",
+        })
+      end
+    end
+    return diagnostics
+  end,
+}
 
 local lint_fidget_notify = function()
   local linters = require("lint").get_running()
