@@ -1,3 +1,10 @@
+# OPENSPEC:START
+# OpenSpec shell completions configuration
+fpath=("/Users/inuatsu/.zsh/completions" $fpath)
+autoload -Uz compinit
+compinit
+# OPENSPEC:END
+
 # Lines configured by zsh-newuser-install
 HISTFILE=~/.histfile
 HISTSIZE=100000
@@ -50,10 +57,16 @@ fi
 source "$sheldon_cache"
 unset cache_dir sheldon_cache sheldon_toml
 
-# pnpm
-export PNPM_HOME="$HOME/.local/share/pnpm"
-case ":$PATH:" in
-  *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
-esac
-# pnpm end
+daily_dev_tools_update() {
+  local lock_file="/tmp/daily-update-$(date +%Y%m%d)"
+  [[ -f "$lock_file" ]] && return
+  echo "📦 Today's dev tools update hasn't run yet."
+  read -q "reply?   Run 'mise run update' now? [y/N] "
+  echo
+  if [[ "$reply" == "y" ]]; then
+    touch "$lock_file"
+    mise run update
+    mise run doctor
+  fi
+}
+daily_dev_tools_update

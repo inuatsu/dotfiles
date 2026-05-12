@@ -14,4 +14,16 @@ config.text_background_opacity = 0.5
 config.use_ime = true
 config.window_background_opacity = 0.8
 
+-- システムベル音を有効化（Claude Codeのタスク完了通知用）
+config.audible_bell = "SystemBeep"
+
+-- Shift+Enterで改行を送信
+config.keys = {
+  {
+    key = "Enter",
+    mods = "SHIFT",
+    action = wezterm.action.SendString("\n"),
+  },
+}
+
 return config

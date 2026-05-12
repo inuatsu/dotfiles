@@ -15,17 +15,6 @@ case "$(uname -s)" in
     ;;
 esac
 
-install_starship() {
-  if ! command -v starship &> /dev/null; then
-    if [ ! -d /usr/local/bin ]; then
-      sudo mkdir -p /usr/local/bin
-    fi
-    sh -c "$(curl -sS https://starship.rs/install.sh)" -y -f
-  else
-    echo "starship already installed."
-  fi
-}
-
 install_wezterm() {
   if ! command -v wezterm &> /dev/null; then
     echo "Installing WezTerm..."
@@ -167,18 +156,19 @@ install_gems() {
 
 install_npm_packages() {
   echo "Installing npm packages..."
-  export PNPM_HOME="$HOME/.local/share/pnpm"
-  export PATH="$PNPM_HOME:$PATH"
-  corepack pnpm add -g \
+  aube add -g \
+    @fission-ai/openspec \
     @fsouza/prettierd \
     @microsoft/compose-language-service \
+    @typespec/compiler \
     @vue/language-server \
     @vue/typescript-plugin \
     dockerfile-language-server-nodejs \
     eslint_d \
     markdown-toc \
     markdownlint-cli2 \
-    pyright \
+    pm2 \
+    postcss \
     sql-language-server \
     stylelint \
     stylelint-config-recommended-scss \
@@ -189,11 +179,11 @@ install_npm_packages() {
     typescript-language-server \
     vscode-jsonrpc \
     vscode-langservers-extracted \
+    vtop \
     yaml-language-server
   echo "npm packages installed."
 }
 
-install_starship & pids+=($!)
 install_wezterm & pids+=($!)
 install_mise & pids+=($!)
 install_sheldon & pids+=($!)
