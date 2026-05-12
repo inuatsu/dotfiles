@@ -1,21 +1,64 @@
+[tasks."update:mise"]
+description = "Update mise and plugins"
+run = "mise self-update && mise upgrade"
+
+[tasks."update:brew"]
+description = "Update Homebrew packages"
+run = "brew update && brew upgrade && brew cleanup"
+
+[tasks."update:aube"]
+description = "Update aube global packages"
+run = "aube update --global --latest"
+
+[tasks.update]
+description = "Run updates of all the dev tools"
+depends = ["update:*"]
+
+[tasks."doctor:mise"]
+description = "Check mise installation for possible problems"
+run = "source ~/.zprofile && mise doctor"
+
+[tasks."doctor:brew"]
+description = "Check possible problems with brew"
+run = "brew doctor"
+
+[tasks."doctor:aube"]
+description = "Checks for known common issues with aube configuration"
+run = "aube doctor"
+
+[tasks.doctor]
+description = "Check issues with configuration of all the dev tools"
+depends = ["doctor:*"]
+
 [tools]
 actionlint = "latest"
+aube = "latest"
 aws-sso = "latest"
+bat = "latest"
+bottom = "latest"
+claude = "latest"
 ecspresso = "latest"
+eza = "latest"
+fd = "latest"
+git-cliff = "latest"
 github-cli = "latest"
 go = "latest"
+go-jsonnet = "latest"
 hadolint = "latest"
 lefthook = "latest"
 lua = "latest"
 lua-language-server = "latest"
 neovim = "latest"
-node = "20.12.2"
+node = "24"
+pinact = "latest"
+pipx = "latest"
 poetry = "latest"
-python = "3.11.9"
+python = "3.11.15"
 ripgrep = "latest"
-ruby = "3.1.5"
+ruby = "3.4.9"
 rust = "latest"
 sops = "latest"
+starship = "latest"
 stylua = "latest"
 taplo = "latest"
 terraform = "1.3.1"
@@ -24,7 +67,8 @@ terragrunt = "0.52.2"
 typos = "latest"
 usage = "latest"
 uv = "latest"
-"npm:corepack" = "latest"
+yarn = "1.22.22"
 
 [settings]
 experimental = true
+idiomatic_version_file_enable_tools = ["node"]

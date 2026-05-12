@@ -53,8 +53,8 @@ lspconfig.ts_ls.setup {
     plugins = {
       {
         name = "@vue/typescript-plugin",
-        location = "/home/inuatsu/.local/share/pnpm/global/5/node_modules/@vue/typescript-plugin",
-        languages = { "vue" },
+        location = os.getenv "HOME" .. "/.local/share/pnpm/global/5/node_modules/@vue/typescript-plugin",
+        languages = { "javascript", "typescript", "vue" },
       },
     },
   },
@@ -67,5 +67,9 @@ lspconfig.ts_ls.setup {
     "typescript.tsx",
     "vue",
   },
+  capabilities = nvlsp.capabilities,
+}
+
+lspconfig.volar.setup {
   capabilities = nvlsp.capabilities,
 }

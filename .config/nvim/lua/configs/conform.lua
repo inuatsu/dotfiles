@@ -20,6 +20,7 @@ local options = {
     python = { "black", "isort", "ruff_fix", "ruff_format", "ruff_organize_imports" },
     ruby = { "rubocop" },
     scss = { "prettierd", "stylelint" },
+    toml = { "taplo" },
     typescript = { "biome-check", "eslint_d", "prettierd" },
     typescriptreact = { "biome-check", "eslint_d", "prettierd" },
     vue = { "biome-check", "eslint_d", "prettierd" },
@@ -166,10 +167,10 @@ local options = {
         "fixed-result",
         "--dry-run",
       },
-      cwd = require("conform.util").root_file({
+      cwd = require("conform.util").root_file {
         "package.json",
-      })
-    }
+      },
+    },
   },
   format_on_save = function(bufnr)
     local conform = require "conform"
@@ -191,7 +192,7 @@ local options = {
     return {
       -- These options will be passed to conform.format()
       lsp_format = "fallback",
-      timeout_ms = 3000,
+      timeout_ms = 10000,
     }, function(_)
       msg_handle:finish()
     end

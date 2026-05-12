@@ -139,7 +139,7 @@ After setup finished, execute `zsh -l` and you can try it out.
 ## Highlights
 
 - In my setup I don't use Mason to install linters, formatters and language servers.
-  Most of them are installed by mise or pnpm.
+  Most of them are installed by mise or aube.
 - When opening Python files, it searches appropriate project root
   and automatically activates the virtual environment of the project using
   [venv-selector.nvim](https://github.com/linux-cultist/venv-selector.nvim/tree/regexp)
