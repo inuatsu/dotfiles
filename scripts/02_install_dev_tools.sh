@@ -179,7 +179,6 @@ install_npm_packages() {
     typescript-language-server \
     vscode-jsonrpc \
     vscode-langservers-extracted \
-    vtop \
     yaml-language-server
   echo "npm packages installed."
 }

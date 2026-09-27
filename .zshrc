@@ -70,3 +70,11 @@ daily_dev_tools_update() {
   fi
 }
 daily_dev_tools_update
+
+# aube global bin
+export PATH="$HOME/.local/share/aube/bin:$PATH"
+
+alias claude='command claude --settings ~/.claude/profiles/lean.json'
+alias claude-aws='command claude --settings ~/.claude/profiles/aws.json'
+alias claude-sf='command claude --settings ~/.claude/profiles/sf.json'
+alias claude-full='command claude --settings ~/.claude/profiles/full.json'
