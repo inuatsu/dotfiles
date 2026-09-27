@@ -1,6 +1,6 @@
 [tasks."update:mise"]
 description = "Update mise and plugins"
-run = "mise self-update && mise upgrade"
+run = "mise self-update --yes && mise upgrade --yes"
 
 [tasks."update:brew"]
 description = "Update Homebrew packages"
@@ -8,7 +8,7 @@ run = "brew update && brew upgrade && brew cleanup"
 
 [tasks."update:aube"]
 description = "Update aube global packages"
-run = "aube update --global --latest"
+run = "aube update --latest --global"
 
 [tasks.update]
 description = "Run updates of all the dev tools"
@@ -40,11 +40,13 @@ claude = "latest"
 ecspresso = "latest"
 eza = "latest"
 fd = "latest"
+ghtkn = "latest"
 git-cliff = "latest"
 github-cli = "latest"
 go = "latest"
 go-jsonnet = "latest"
 hadolint = "latest"
+herdr = "latest"
 lefthook = "latest"
 lua = "latest"
 lua-language-server = "latest"
@@ -55,7 +57,7 @@ pipx = "latest"
 poetry = "latest"
 python = "3.11.15"
 ripgrep = "latest"
-ruby = "3.4.9"
+ruby = "3.4.11"
 rust = "latest"
 sops = "latest"
 starship = "latest"
@@ -67,8 +69,11 @@ terragrunt = "0.52.2"
 typos = "latest"
 usage = "latest"
 uv = "latest"
-yarn = "1.22.22"
+yarn = "4.13.0"
 
 [settings]
 experimental = true
 idiomatic_version_file_enable_tools = ["node"]
+
+[settings.github]
+credential_command = '"/Users/inuatsu/.local/share/mise/installs/ghtkn/latest/ghtkn" get -m 1h'
