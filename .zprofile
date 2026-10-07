@@ -1,14 +1,5 @@
-export PATH="$HOME/.local/share/mise/shims:$PATH"
-
-# set PATH so it includes user's private bin if it exists
-if [ -d "$HOME/bin" ] ; then
-    PATH="$HOME/bin:$PATH"
-fi
-
-# set PATH so it includes user's private bin if it exists
-if [ -d "$HOME/.local/bin" ] ; then
-    PATH="$HOME/.local/bin:$PATH"
-fi
+# 入れ子の login shell で再 source されても PATH が重複しないようにする
+typeset -U path PATH
 
 if [ "$(uname -s)" = "Darwin" ]; then
   ARCH="$(uname -m)"
@@ -22,3 +13,16 @@ if [ "$(uname -s)" = "Darwin" ]; then
     fi
   fi
 fi
+
+# set PATH so it includes user's private bin if it exists
+if [ -d "$HOME/bin" ] ; then
+    PATH="$HOME/bin:$PATH"
+fi
+
+# set PATH so it includes user's private bin if it exists
+if [ -d "$HOME/.local/bin" ] ; then
+    PATH="$HOME/.local/bin:$PATH"
+fi
+
+# mise の shims は brew・~/bin より優先させるため、PATH の変更の最後に先頭へ置く
+export PATH="$HOME/.local/share/mise/shims:$PATH"
