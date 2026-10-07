@@ -101,10 +101,10 @@ install_docker() {
   elif [ "${machine}" = "macOS" ]; then
     if ! command -v docker &> /dev/null; then
       echo "Installing docker and docker compose..."
-      brew install docker docker-compose docker-credential-helper colima
+      brew install docker docker-buildx docker-compose docker-credential-helper colima
     else
       echo "Installing docker compose..."
-      brew install docker-compose docker-credential-helper colima
+      brew install docker-buildx docker-compose docker-credential-helper colima
     fi
     update_docker_config
     brew services start colima
