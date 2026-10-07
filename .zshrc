@@ -71,10 +71,13 @@ daily_dev_tools_update() {
 }
 daily_dev_tools_update
 
-# aube global bin
-export PATH="$HOME/.local/share/aube/bin:$PATH"
+# aube global bin。mise の shims より前に出ないよう、shims の直後に置く
+typeset -U path PATH
+path=("$HOME/.local/share/mise/shims" "$HOME/.local/share/aube/bin" $path)
 
 alias claude='command claude --settings ~/.claude/profiles/lean.json'
 alias claude-aws='command claude --settings ~/.claude/profiles/aws.json'
 alias claude-sf='command claude --settings ~/.claude/profiles/sf.json'
 alias claude-full='command claude --settings ~/.claude/profiles/full.json'
+
+eval "$(tirith init --shell zsh)"
